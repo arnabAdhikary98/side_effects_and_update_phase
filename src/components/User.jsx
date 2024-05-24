@@ -1,4 +1,4 @@
-function User({ avatar, email, first_name, last_name }) {
+function User({avatar, email, first_name, last_name }) {
   return (
     <div>
       <img src={avatar} alt={first_name} />

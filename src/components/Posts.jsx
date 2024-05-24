@@ -16,11 +16,13 @@ function Posts() {
     try {
       let res = await axios({
         method: "get",
-        url: `https://jsonplaceholder.typicode.com/posts?_limit=10&page=${page}`,
+        url: `https://jsonplaceholder.typicode.com/posts?_limit=10&_page=${page}`,
       });
+      setPosts(res?.data)
+      const totalCount = 100;
+      setTotalPages(Math.ceil(totalCount / 10));
+      setLoading(false)
 
-      setTotalPages(Math.ceil(Number(res?.headers["x-total-count"]) / 10));
-      /*Complete the missing code*/
     } catch (error) {
       setError(true);
       setLoading(false);
@@ -28,7 +30,7 @@ function Posts() {
   }
 
   useEffect(() => {
-    /*Complete the missing code*/
+    fetchAndUpdateData(page)
   }, [page]);
 
   if (loading) {
@@ -43,7 +45,7 @@ function Posts() {
     <div>
       <div id="pagination">
         {/* Button to go to the previous page, disabled if already on the first page */}
-        <button disabled={page === 1} onClick={() => setPage(page - 1)}>
+        <button disabled={page === 1} onClick={() => setPage((e)=> e-1)}>
           PREVIOUS
         </button>
         {/* Display the current page number */}
@@ -51,7 +53,7 @@ function Posts() {
         {/* Button to go to the next page, disabled if already on the last page */}
         <button
           disabled={page === totalPages}
-          onClick={() => setPage(page + 1)}
+          onClick={() => setPage((e)=> e+1)}
         >
           NEXT
         </button>
